@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FacebookPageTest extends TestBase {
-    public static final String USERNAME = "javatestingselenium1@gmail.com";
-    public static final String PASSWORD = "123testing";
+    public static final String USERNAME = "XXX";
+    public static final String PASSWORD = "XXX";
 
     @BeforeMethod()
     public void setUp() {
@@ -66,7 +66,7 @@ public class FacebookPageTest extends TestBase {
     }
 
     private WebElement getNextPostedElement() {
-        List userIdsToSkip = Arrays.asList("100023288955785", "100001057939268", "100001577147406"); //id pentru exclus
+        List userIdsToSkip = Arrays.asList("XXX"); //id pentru exclus
         List<WebElement> userProfileElements = findElements(FacebookPage.ActivityLog.USER_PROFILE_LINK);
         for (WebElement liker : userProfileElements) {
             String id = liker.getAttribute("data-hovercard").split("id=")[1];
