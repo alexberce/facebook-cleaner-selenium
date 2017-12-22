@@ -15,14 +15,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FacebookPageTest extends TestBase {
-    public static final String USERNAME = "XXX";
-    public static final String PASSWORD = "XXX";
+    private static final String USERNAME = "XXX";
+    private static final String PASSWORD = "XXX";
+
+    private static final String PAGE_URL = "https://www.facebook.com/";
+    private static final List USERS_TO_SKIP = Arrays.asList("XXX","YYY");
 
     @BeforeMethod()
     public void setUp() {
         try {
             rootInit();
-            getDriver().get("https://www.facebook.com/");
+            getDriver().get(FacebookPageTest.PAGE_URL);
             findElement(FacebookPage.Login.EMAIL_INPUT).sendKeys(USERNAME);
             findElement(FacebookPage.Login.PASSWORD_INPUT).sendKeys(PASSWORD);
             findElement(FacebookPage.Login.SUBMIT_BTN).click();
@@ -33,12 +36,7 @@ public class FacebookPageTest extends TestBase {
 
     @AfterMethod()
     public void tearDown() {
-        try {
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            rootTearDown();
-        }
+        rootTearDown();
     }
 
     @Test
@@ -66,11 +64,10 @@ public class FacebookPageTest extends TestBase {
     }
 
     private WebElement getNextPostedElement() {
-        List userIdsToSkip = Arrays.asList("XXX"); //id pentru exclus
         List<WebElement> userProfileElements = findElements(FacebookPage.ActivityLog.USER_PROFILE_LINK);
         for (WebElement liker : userProfileElements) {
             String id = liker.getAttribute("data-hovercard").split("id=")[1];
-            if (id != null && !userIdsToSkip.contains(id))
+            if (id != null && !FacebookPageTest.USERS_TO_SKIP.contains(id))
                 return liker;
         }
         return null;
