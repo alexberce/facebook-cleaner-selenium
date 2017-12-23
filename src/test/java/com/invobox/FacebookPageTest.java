@@ -15,11 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FacebookPageTest extends TestBase {
-    private static final String USERNAME = "javatestingselenium1@gmail.com";
-    private static final String PASSWORD = "123testing";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
 
     private static final String PAGE_URL = "https://www.facebook.com/";
-    private static final List USERS_TO_SKIP = Arrays.asList("100023288955785", "100001057939268", "100001577147406");
+    private static final List USERS_TO_SKIP = Arrays.asList("XXX, XXX");
 
     @BeforeMethod()
     public void setUp() {
