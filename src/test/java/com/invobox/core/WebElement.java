@@ -46,6 +46,7 @@ public class WebElement {
         visibilityWait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
-
-
+    public boolean isDisplayed() {
+        return webElement.isDisplayed();
+    }
 }

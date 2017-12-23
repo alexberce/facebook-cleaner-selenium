@@ -15,11 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FacebookPageTest extends TestBase {
-    private static final String USERNAME = "XXX";
-    private static final String PASSWORD = "XXX";
+    private static final String USERNAME = "javatestingselenium1@gmail.com";
+    private static final String PASSWORD = "123testing";
 
     private static final String PAGE_URL = "https://www.facebook.com/";
-    private static final List USERS_TO_SKIP = Arrays.asList("XXX","YYY");
+    private static final List USERS_TO_SKIP = Arrays.asList("100023288955785", "100001057939268", "100001577147406");
 
     @BeforeMethod()
     public void setUp() {
@@ -45,20 +45,32 @@ public class FacebookPageTest extends TestBase {
         getLongWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(FacebookPage.ActivityLog.USER_PROFILE_LINK)));
         WebElement currentLikePost;
         while ((currentLikePost = getNextPostedElement()) != null) {
-            findElement(String.format(FacebookPage.ActivityLog.EDIT_POST_BTN, currentLikePost.getAttribute("data-hovercard").split("id=")[1])).click();
-            findElement(FacebookPage.ActivityLog.UNLIKE_POST_BTN).click();
+            WebElement editPostBtn = findElement(String.format(FacebookPage.ActivityLog.EDIT_POST_BTN, currentLikePost.getAttribute("data-hovercard").split("id=")[1]));
+            editPostBtn.click();
+            WebElement unlikePostBtn = findElement(FacebookPage.ActivityLog.UNLIKE_POST_BTN);
+            if (unlikePostBtn != null && !unlikePostBtn.isDisplayed()){
+                scrollDownToViewActionBtn();
+                editPostBtn.click();
+            }
+            unlikePostBtn.click();
             getDriver().navigate().refresh();
         }
     }
 
     @Test
-    public void testUnCommnent() {
+    public void testRemoveCommnent() {
         goToActivityLog(FacebookPage.ActivityLog.COMMENTS_TAB_BTN);
         getLongWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(FacebookPage.ActivityLog.USER_PROFILE_LINK)));
         WebElement currentCommentPost;
         while ((currentCommentPost = getNextPostedElement()) != null) {
-            findElement(String.format(FacebookPage.ActivityLog.EDIT_POST_BTN, currentCommentPost.getAttribute("data-hovercard").split("id=")[1])).click();
-            findElement(FacebookPage.ActivityLog.DELETE_POST_BTN).click();
+            WebElement editPostBtn = findElement(String.format(FacebookPage.ActivityLog.EDIT_POST_BTN, currentCommentPost.getAttribute("data-hovercard").split("id=")[1]));
+            editPostBtn.click();
+            WebElement deletePostBtn = findElement(FacebookPage.ActivityLog.DELETE_POST_BTN);
+            if (deletePostBtn != null && !deletePostBtn.isDisplayed()){
+                scrollDownToViewActionBtn();
+                editPostBtn.click();
+            }
+            deletePostBtn.click();
             getDriver().navigate().refresh();
         }
     }
@@ -78,6 +90,4 @@ public class FacebookPageTest extends TestBase {
         findElement(FacebookPage.ActivityLog.ACTIVITY_LOG_BTN).click();
         findElement(xpath).click();
     }
-
-
 }

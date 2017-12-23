@@ -1,6 +1,7 @@
 package com.invobox.core;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,6 +20,7 @@ import java.util.Map;
 public abstract class TestBase {
     public static final int FIND_WAIT = 15;
     public static final int LONG_WAIT = 30;
+    static RemoteWebDriver driver;
     protected static final ThreadLocal<RemoteWebDriver> THREAD_LOCAL_DRIVER = new InheritableThreadLocal<>();
     private static final ThreadLocal<WebDriverWait> THREAD_LOCAL_FIND_WAIT = new InheritableThreadLocal<>();
     protected static final ThreadLocal<WebDriverWait> THREAD_LOCAL_LONG_WAIT = new InheritableThreadLocal<>();
@@ -44,7 +46,6 @@ public abstract class TestBase {
 
     protected void rootInit() {
         browser = System.getProperty("browser");
-        RemoteWebDriver driver;
         initDriverPaths();
         startChromeService();
         Map<String, Object> prefs = new HashMap<String, Object>();
@@ -133,5 +134,15 @@ public abstract class TestBase {
 
     public WebDriverWait getLongWait() {
         return THREAD_LOCAL_LONG_WAIT.get();
+    }
+
+    protected void scrollDownToViewActionBtn() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("scroll(0, 50);");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
